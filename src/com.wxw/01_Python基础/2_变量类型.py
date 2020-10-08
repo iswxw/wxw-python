@@ -122,3 +122,12 @@ print(dict[2])  # 输出键为 2 的值
 print(tinydict)  # 输出完整的字典
 print(tinydict.keys())  # 输出所有键
 print(tinydict.values())  # 输出所有值
+
+# 局部要声明全局变量使用 global
+def test():
+    global a #声明全局变量在函数中的标识
+    a = 10
+    print(a)
+
+# 如果没有局部变量，默认使用全局变量
+test()
