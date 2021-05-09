@@ -1,0 +1,3 @@
+
+1. OptionParser命令行解析(在控制台 通过传参数解析文件命)，例如：python demo.py -i file.json -o file.crash
+   - http://www.coolpython.net/python_senior/project/op-optparse.html
