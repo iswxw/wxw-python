@@ -50,6 +50,8 @@ print(str[2:])  # 输出从第三个字符开始的字符串
 print(str * 2)  # 输出字符串两次
 print(str + "TEST")  # 输出连接的字符串
 
+print(str[:-1])
+
 '''
 List（列表）
 '''

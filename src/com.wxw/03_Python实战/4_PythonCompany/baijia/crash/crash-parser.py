@@ -7,6 +7,7 @@
 
 import json
 import os
+import string
 import sys
 import cgi
 import optparse
@@ -63,7 +64,6 @@ def get_report_info(report):
 def get_binary_img_info(report):
     # key: name, value: uuid
     img_info = {}
-
     images = report.get('binaryImages', [])
     for image in images:
         name = os.path.basename(image["name"])
@@ -91,7 +91,7 @@ def get_belong_img(report, addr):
 
 # 解析堆栈信息
 def parse_backtrace(report, backtrace):
-    result = []
+    result = ['{"threadInfo":['];
     for trace in backtrace.get('contents', []):
         try:
             pc = trace['instructionAddr']
@@ -101,36 +101,42 @@ def parse_backtrace(report, backtrace):
         img = get_belong_img(report, pc)
         if not img:
             print "error, no img found for pc: %s" % pc
-            result.append('{{0:31} 0x{1:016x}'.format('unknown', pc))
+            result.append('{0:31} 0x{1:016x}'.format('unknown', pc))
             continue
+        # 对象地址
         obj_addr = img['imageAddr']
-        preamble = '0x{0:016x}'.format(pc)
-        unsymbolicated = '0x{0:04x}'.format(obj_addr)
-        # result.append({'imageAddr': preamble, 'objStartAddr': unsymbolicated})
-        result.append('{0} {1}'.format(preamble, unsymbolicated))
+        # 对象名称
+        obj_name = os.path.basename(img['name'])
+        # result.append('{0:31} 0x{1:016x} 0x{2:04x}'.format(obj_name,pc,obj_addr))
+        result.append(json.dumps({
+            'obj_name': '{0}'.format(obj_name),
+            'pc': '0x{0:016x}'.format(pc),
+            'obj_addr': '0x{0:04x}'.format(obj_addr)
+        }) + ',')
+    result.append(']},')
     return result
 
 
 # 解析线程信息
 def parse_thread_info(thread, report):
     result = []
+    # 是否是奔溃线程
     crashed = thread.get('crashed', False)
     index = thread.get('index', -1)
     if index == -1:
         return result
     name = thread.get('name', None)
     queue = thread.get('dispatch_queue', None)
-
     if name:
-        result.append('ThreadName:{1}'.format(index, name))
+        result.append('"threadNum":' + '{0}:'.format(index) + ',')
+        result.append('"threadName":' + 'threadName:{1}'.format(index, name) + ',')
     elif queue:
-        result.append('ThreadName:  Dispatch queue: {1}'.format(index, queue))
-    if crashed:
-        result.append('ThreadCrashed:'.format(index))
-
+        result.append('"threadNum":' + '{0}:'.format(index) + ',')
+        result.append('"threadName":' + 'threadName:{1}'.format(index, queue) + ',')
     if "backtrace" in thread:
         backtrace = parse_backtrace(report, thread['backtrace'])
         result += backtrace
+    result.append(']')
     return result
 
 
@@ -139,12 +145,9 @@ def parse_thread_list(report):
     crash = get_crash_info(report)
     if not crash:
         return []
-        # print dump_json( crash)
     threads = crash['threads']
-
     result = []
     for thread in threads:
-        result.append('')
         result += parse_thread_info(thread, report)
     return result
 
@@ -161,14 +164,43 @@ def get_app_name(report):
     return system.get('CFBundleExecutable', 'unknown')
 
 
+def parse_binary_images(report):
+    result = ['{"Binary Images":[']
+    system = get_system_info(report)
+    if not system:
+        return result
+    images = report.get('binaryImages', [])
+    images = sorted(images, key=lambda k: k['imageAddr'])
+    image_count = 0
+    for image in images:
+        try:
+            image_count = image_count + 1
+            addr = image['imageAddr']
+            uuid = image['uuid'].upper()
+            result.append(json.dumps({
+                'addr': '{0:#x}'.format(addr),
+                'uuid': '{0}'.format(uuid)
+            }) + ',')
+        except:
+            traceback.print_exc()
+            continue
+    result.append(']')
+    return result
+
+
 # 解析json 文件并输出到指定文件
 def ks_json_2_apple(report, fout):
+    # 申明全局变量
     global IMG_INFO_MAP, APP_NAME
-    # 二进制星系
+    # 二进制镜像
     IMG_INFO_MAP = get_binary_img_info(report)
     # app名称
     APP_NAME = get_app_name(report)
-
+    # 镜像信息
+    images = parse_binary_images(report)
+    for line in images:
+        line = cgi.escape(line)
+        fout.write(line + '\n')
     # 线程信息
     threads = parse_thread_list(report)
     for line in threads:
@@ -187,7 +219,6 @@ if __name__ == '__main__':
         sys.exit(1)
     # 打开文件
     reports = json.load(open(options.input_file))
-
     # 打开写入文件
     fout = open(options.output_file, 'w')
     ks_json_2_apple(reports, fout)
