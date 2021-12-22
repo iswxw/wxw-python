@@ -21,7 +21,7 @@ source_parsers = {
 source_suffix = ['.rst', '.md']
 
 # -- Project information -----------------------------------------------------
-project = 'Go 深入浅出'
+project = 'Python 深入浅出'
 copyright = '2021, 公众号:Java半颗糖'
 author = 'wxw'
 
