@@ -16,7 +16,7 @@ import pandas as pd
 
 # [1] 读xlsx数据
 #  pandas读文档：https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html#pandas.read_excel
-df = pd.read_excel('../../file/output.xlsx', index_col=0)
+df = pd.read_excel('../../file/in_file.xlsx', index_col=0)
 print(df)
 
 # [2] 按行遍历

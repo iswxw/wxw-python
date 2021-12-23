@@ -1,4 +1,4 @@
-#!usr/bin/env python  
+#!/usr/bin/python3
 # -*- coding:utf-8 _*-
 """ 
 @author:xiaowei
@@ -42,7 +42,9 @@ if __name__ == '__main__':
 """
 
 使用方法：
-  1. 执行脚本 python3 main.py -h
+  1. 执行脚本:
+   - [mac]: python3 main.py -h
+   - [win10]: main.py -h
 
 相关资料：
   1. www.coolpython.net/python_senior/project/op-optparse.html

@@ -1,0 +1,4 @@
+
+
+# 相关资料
+  1. Python中list、tuple、str和dict之间的相互转换：https://blog.csdn.net/violet_echo_0908/article/details/52486689
