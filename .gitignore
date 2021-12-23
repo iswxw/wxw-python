@@ -1,6 +1,8 @@
 
 # 20211222
 logs/*
+*.xlsx
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

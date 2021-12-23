@@ -1,0 +1,7 @@
+
+
+一、python操作excel相关技术
+   1. pandas
+      - 官网教程：https://pandas.pydata.org/docs/reference/index.html
+      - 菜鸟教程：https://www.runoob.com/pandas/pandas-json.html
+      - 使用案例：https://www.cnblogs.com/liulinghua90/p/9935642.html
