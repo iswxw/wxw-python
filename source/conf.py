@@ -47,7 +47,7 @@ templates_path = ['_templates']
 # for a list of supported languages.
 #
 # This is also used if you do content translation via gettext catalogs.
-# Usually you set "language" from the py211_command line for these cases.
+# Usually you set "language" from the command line for these cases.
 language = 'zh_CN'
 
 # List of patterns, relative to source directory, that match files and
