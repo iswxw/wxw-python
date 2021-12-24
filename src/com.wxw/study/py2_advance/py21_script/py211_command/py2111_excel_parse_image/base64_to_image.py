@@ -5,7 +5,7 @@
 @file: base64_to_image.py
 @time: 2021/12/22
 """
-import json
+
 import redis
 import sys
 from optparse import OptionParser
