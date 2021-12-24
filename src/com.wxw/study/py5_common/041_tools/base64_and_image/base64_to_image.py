@@ -2,7 +2,7 @@
 # -*- coding:utf-8 _*-
 """ 
 @author:xiaowei
-@file: base64_to_image.py  base64和图片之间的互转
+@file: base64_to_image_redis.py  base64和图片之间的互转
 @time: 2021/12/23 
 """
 

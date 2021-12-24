@@ -16,6 +16,7 @@ print("文件访问模式：", fo.mode)
 # 关闭打开的文件
 fo.close()
 """
+import os
 
 rd = open("F:\\Study_GO\\Study_Project\\python\\wxw-python\\doc\\foo.txt", "r")
 # print(rd.read(5)) # 读指定的字符，开始时定位在文件头
@@ -33,7 +34,6 @@ print("文件访问模式：", rd.mode)
 rd.close()  # 关闭打开的文件
 
 # 文件 os模块
-import os
 
 print("获取当前路径：", os.getcwd())
 print("登录用户：", os.getlogin())

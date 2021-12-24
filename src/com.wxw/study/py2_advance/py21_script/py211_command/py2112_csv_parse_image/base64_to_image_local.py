@@ -5,7 +5,7 @@
 @file: base64_to_image_redis.py
 @time: 2021/12/22
 """
-
+import base64
 import sys
 import redis
 import pandas as pd
@@ -36,7 +36,8 @@ parser.add_option('-O', "--out_file", action="store", help="指定输出xlsx文�
 
 # [3] redis 客户端
 def redis_client(params):
-    pool = redis.ConnectionPool(host=params.host, port=params.port, password=params.password)
+    # pool = redis.ConnectionPool(host=params.host, port=params.port, password=params.password)
+    pool = redis.ConnectionPool(host=params.host, port=params.port)
     r = redis.Redis(connection_pool=pool)
     return r
 
@@ -49,12 +50,16 @@ def base64_2_image_by_read_redis(rewards, params):
     # [2] 解析奖励信息
     result = pd.DataFrame()
     for row in rewards.itertuples():
-        print(row.name, row.time)
-        # [3] redis 读取base64 并转换为图片
-        # base64_value = r.get("picData")
-        # img_data = base64.b64decode(f.read())
+        # [3] redis 获取img key = img
+        base64_str = r.get('img')
         # [4] 转换后的图片链接 上传文件返回链接
+        imgdata = base64.b64decode(base64_str)
 
+        # [5] 图片路径
+
+        file = open('img.jpg', 'wb')
+        file.write(imgdata)
+        file.close()
         # 追加数据
         img_url = "https://img0.baidu.com/it/u=2866200409,4132400541&fm=253&fmt=auto&app=120&f=JPEG?w=450&h=780"
         result = result.append(
@@ -67,8 +72,8 @@ def base64_2_image_by_read_redis(rewards, params):
             },
             ignore_index=True)
 
-    # [5] 写入输出excel文件
-    result.to_excel(params.out_file, index=False)
+    # [5] 写入输出csv文件
+    result.to_csv(params.out_file, index=False)
 
 
 # command
@@ -79,5 +84,5 @@ if __name__ == '__main__':
         parser.print_help()
         sys.exit(1)
     # 打开待读文件
-    rewardList = pd.read_excel(options.in_file)
+    rewardList = pd.read_csv(options.in_file)
     base64_2_image_by_read_redis(rewardList, options)

@@ -2,7 +2,7 @@
 # -*- coding:utf-8 _*-
 """
 @author:xiaowei
-@file: base64_to_image.py
+@file: base64_to_image_redis.py
 @time: 2021/12/22
 """
 
@@ -72,7 +72,7 @@ def base64_2_image_by_read_redis(rewards, params):
 
 
 # command
-#  - ./base64_to_image.py -I in_file.xlsx -O test.xlsx
+#  - ./base64_to_image_redis.py -I in_file.xlsx -O test.xlsx
 if __name__ == '__main__':
     (options, args) = parser.parse_args(sys.argv[1:])
     if not (options.in_file and options.out_file):
