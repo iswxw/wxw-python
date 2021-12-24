@@ -1,7 +1,7 @@
 
 # 20211222
 logs/*
-#*.xlsx
+*.xlsx
 *.csv
 
 # Byte-compiled / optimized / DLL files
