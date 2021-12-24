@@ -67,8 +67,8 @@ def base64_2_image_by_read_redis(rewards, params):
             },
             ignore_index=True)
 
-    # [5] 写入输出excel文件
-    result.to_excel(params.out_file, index=False)
+    # [5] 写入输出csv文件
+    result.to_csv(params.out_file, index=False)
 
 
 # command
@@ -79,5 +79,5 @@ if __name__ == '__main__':
         parser.print_help()
         sys.exit(1)
     # 打开待读文件
-    rewardList = pd.read_excel(options.in_file)
+    rewardList = pd.read_csv(options.in_file)
     base64_2_image_by_read_redis(rewardList, options)

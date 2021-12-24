@@ -2,7 +2,7 @@
 # -*- coding:utf-8 _*-
 """ 
 @author:xiaowei
-@file: pandas_case01.py
+@file: pandas_excel_case01.py
 @time: 2021/12/23 
 """
 import pandas as pd
