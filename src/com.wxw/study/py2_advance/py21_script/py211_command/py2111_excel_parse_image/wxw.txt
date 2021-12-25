@@ -1,4 +1,0 @@
-
-
-# 通过控制台传参数解析文件
-python crash-parser.py -i test.json -o newtest.json

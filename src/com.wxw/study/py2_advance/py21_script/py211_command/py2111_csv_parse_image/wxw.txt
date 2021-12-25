@@ -1,0 +1,5 @@
+
+
+# 通过控制台传参数解析文件
+   - 执行脚本： ./base64_to_image_local.py -I read.csv -O test.xlsx
+   - 查看生成的图片：file:// + [图片路径]
