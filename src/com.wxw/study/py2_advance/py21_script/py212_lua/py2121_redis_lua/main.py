@@ -26,8 +26,8 @@ def redis_init():
 # [初始化redis]
 redis_client = redis_init()
 
-# [1] 一次性执行
-cmd1 = redis_client.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", 2, "key1", "key2", "first", "second")
+# [1] 一次性执行 2 标识key的个数
+cmd1 = redis_client.eval("return {KEYS[1],ARGV[1],KEYS[2],ARGV[2]}", 2, "key1", "key2","key3","first", "second")
 print(cmd1)
 
 # [2] 加载到内存
