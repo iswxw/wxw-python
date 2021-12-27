@@ -1,0 +1,19 @@
+
+用法
+- Eval 命令执行当前lua脚本
+- script_load 将脚本 script 添加到脚本缓存中，但并不立即执行这个脚本。Evalsha 命令可以根据给定的sha1校验码，执行缓存过的脚本
+-
+脚本使用注意：
+  1. 对于一些比较简短的lua脚本，我们并不需要提前缓存文件，可以直接通过Eval命令来执行并得到结果
+  2. register_script 调用 lua 来实现，需要注意 redis.call(method, key, field) 的返回值（nil，false，1），此处没有键值返回的是false。如果中间有错误，所有的语句不时不生效。
+
+
+
+脚本参数说明：
+- key [key ...]：从第三个参数开始算起，这些参数可以在Lua脚本中通过全局变量 KEYS数组来访问，下标从1开始，如 KEYS[1], KEYS[2] ...
+- arg [arg ...] ：附加参数，在脚本中通过全局变量 ARGV数组 来访问，下标也是从1开始。因为已经通过 numkeys指定了 key的数量，因此程序可以找到 arg 的起始位置。
+
+相关文章：
+  1. https://zhuanlan.zhihu.com/p/258890196
+  2. 加载脚本：https://redis.io/commands/script-load
+  3. python redis eval 菜鸟教程：https://www.runoob.com/redis/redis-scripting.html
