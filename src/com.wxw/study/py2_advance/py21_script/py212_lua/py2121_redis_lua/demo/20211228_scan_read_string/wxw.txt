@@ -1,0 +1,7 @@
+
+
+
+#
+ 1. read_csv_to_redis.py  读取 csv文件写入redis
+ 2. redis_scan_pattern_kv_offset_1 scan 读取redis指定count的数据写入csv
+ 3. redis_scan_pattern_kv_offset_all scan 读取所有对应key的数据写入csv
