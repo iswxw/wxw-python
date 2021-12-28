@@ -1,0 +1,5 @@
+#,user_id,name,addr,redis_key,time
+0,1,Google,北京市,1,www.google.com
+1,2,Runoob,北京市,2,www.runoob.com
+2,3,Taobao,北京市,3,www.taobao.com
+3,4,Wiki,北京市,4,www.wikipedia.org
