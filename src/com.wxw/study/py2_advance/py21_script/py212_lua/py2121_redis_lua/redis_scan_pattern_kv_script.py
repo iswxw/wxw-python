@@ -17,7 +17,7 @@ LUA_BATCH_READ_KV_SCRIPT = """
 local keyList = {};
 local result = redis.call(ARGV[1], ARGV[2], "count", ARGV[3], "MATCH", ARGV[4])
 -- table.insert(keyList, result[1]);
-for i, value in pairs(result[2]) do
+ for i, value in pairs(result[2]) do
    table.insert(keyList,value);
  end
 return keyList
@@ -71,6 +71,7 @@ def read_img_kv_from_redis(options):
     for key in cmd3:
         dict = {"key": str(key, encoding='utf-8'), "value": redis_client.get(key).decode()}
         imgList.append(dict)
+
     # [2] 数据导出到excel
     export_file(imgList, options.out_file)
 
